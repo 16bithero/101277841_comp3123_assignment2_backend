@@ -7,11 +7,8 @@ const empModel = require("./empModel")
 //Get all employees
 routes.get("/employees", async(req,res) => {
     const emp = await empModel.find()
-    const allEmp = {
-        "employees": emp
-    }
     try {
-        res.status(200).send(allEmp)
+        res.status(200).send(emp)
     } catch (error) {
         res.status(400).send(error)
     }
