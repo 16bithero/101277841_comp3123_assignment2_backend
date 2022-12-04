@@ -4,6 +4,9 @@ const mongoose = require("mongoose")
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3001;
 const empRoutes = require("./empAPI")
+var cors = require('cors')
+
+app.use(cors())
 
 //Connect to MongoDB
 const database_url = "mongodb+srv://101277841_Renzzi:qw12345@cluster0.prgemqj.mongodb.net/assignment_two?retryWrites=true&w=majority"
