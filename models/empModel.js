@@ -15,8 +15,7 @@ const empSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        maxlength: 50,
-        unique: true
+        maxlength: 50
     }
 })
 
