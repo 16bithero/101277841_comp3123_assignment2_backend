@@ -18,33 +18,46 @@ routes.get("/employees", async(req,res) => {
 })
 
 //Creates new employee
-routes.post("/employees/:fname/:lname/:email", async(req,res) => {
+routes.post("/employees", async(req,res) => {
     try {
-        const fname = req.params.fname
-        const lname = req.params.lname
-        const email = req.params.email
-        console.log(fname,lname,email)
-        const newEmp = new empModel({
-            first_name: fname,
-            last_name: lname,
-            email: email
-        })
+        const newEmp = new empModel(req.body)
         const emp = await newEmp.save()
-        res.status(201).send(emp)
+        const createEmp = {
+            "employee": emp
+        }
+        res.status(201).send(createEmp)
     } catch (error) {
         res.status(400).send(error)
     }
 })
 
+// Update employee details by ID
+routes.put("/employees/:eid", async(req, res) => {
+    try {
+        const updateEmp = await empModel.findByIdAndUpdate(req.params.eid, req.body)
+        const update = {
+            "employee": req.body
+        }
+        res.status(200).send(update)
+    } catch (error) {
+        res.status(400).send(error)
+    }
 
+})
 
+//Delete employee by ID
+routes.delete("/employees/", async(req, res) => {
+    try {
+        const empID = req.query.eid
+        const deleteEmp = await empModel.findByIdAndDelete(empID)
+        if(!deleteEmp){
+            res.status(400).send({message: "Employee not found."})
+        }
+        res.status(204).send(deleteEmp)
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
 
-getUserData = () => {
-    axios.get("https://jsonplaceholder.typicode.com/users")
-    .then(res =>  { 
-        console.log(res.data)
-        this.setState({...this.state, users : res.data})
-    })
-}
 
 module.exports = routes
