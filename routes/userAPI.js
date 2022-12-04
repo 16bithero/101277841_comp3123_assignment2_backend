@@ -54,7 +54,7 @@ routes.post("/user/add", async(req,res) => {
     const {first_name, last_name, username, password} = req.body
     try{
         const exisiting = userModel.findOne({username})
-        if(exisiting){
+        if(!exisiting){
             res.json({error: "username exists"})
         }
         const newUser = new userModel(req.body)
