@@ -14,8 +14,7 @@ routes.get("/user", async(req,res) => {
 })
 
 routes.post("/user/login", async(req,res) =>{
-    const userInput = req.body.username
-    const passInput = req.body.password
+    const {username, password} = req.body
     
     //Responses
     const noUser = {
@@ -32,13 +31,13 @@ routes.post("/user/login", async(req,res) =>{
         "status": true,
         "message": "Login Success."
     }
-    
+
     try {
-        var validUser = await userModel.findOne({ username: userInput }).exec()
+        const validUser = await userModel.findOne({ username })
         if(!validUser) {
             return res.status(400).send(noUser)
         }
-        validUser.comparePassword(passInput, (error, match) => {
+        !validUser.comparePassword(password, (error, match) => {
             if(!match) {
                 return res.status(400).send(wrongPass)
             }
@@ -55,7 +54,7 @@ routes.post("/user/add", async(req,res) => {
     const {first_name, last_name, username, password} = req.body
     try{
         const exisiting = userModel.findOne({username})
-        if(exisiting){
+        if(!exisiting){
             res.json({error: "username exists"})
         }
         const newUser = new userModel(req.body)
@@ -65,6 +64,5 @@ routes.post("/user/add", async(req,res) => {
         res.status(400).send(error)
     }
 })
-
 
 module.exports = routes
