@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use("/api/emp/", empRoutes)
+app.use("/api", empRoutes)
 
 app.route("/")
     .get((req, res) => {
