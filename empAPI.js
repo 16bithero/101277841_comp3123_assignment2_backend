@@ -18,7 +18,7 @@ routes.get("/employees", async(req,res) => {
 })
 
 //Creates new employee
-routes.post("/employees", async(req,res) => {
+routes.post("/employees/add", async(req,res) => {
     try {
         const newEmp = new empModel(req.body)
         const emp = await newEmp.save()
@@ -32,7 +32,7 @@ routes.post("/employees", async(req,res) => {
 })
 
 // Update employee details by ID
-routes.put("/employees/:eid", async(req, res) => {
+routes.put("/employees/update/:eid", async(req, res) => {
     try {
         const updateEmp = await empModel.findByIdAndUpdate(req.params.eid, req.body)
         const update = {
@@ -46,9 +46,9 @@ routes.put("/employees/:eid", async(req, res) => {
 })
 
 //Delete employee by ID
-routes.delete("/employees/", async(req, res) => {
+routes.delete("/employees/delete/:eid", async(req, res) => {
     try {
-        const empID = req.query.eid
+        const empID = req.params.eid
         const deleteEmp = await empModel.findByIdAndDelete(empID)
         if(!deleteEmp){
             res.status(400).send({message: "Employee not found."})
