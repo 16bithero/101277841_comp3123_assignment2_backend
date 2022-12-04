@@ -1,6 +1,6 @@
 //Imports Mongoose to access MongoDB
 const mongoose = require("mongoose")
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcryptjs")
 
 //Defining employee schema
 const userSchema = mongoose.Schema({
