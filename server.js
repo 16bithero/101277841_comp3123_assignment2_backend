@@ -2,7 +2,8 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const bodyParser = require('body-parser');
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
+const empRoutes = require("./empAPI")
 
 //Connect to MongoDB
 const database_url = "mongodb+srv://101277841_Renzzi:qw12345@cluster0.prgemqj.mongodb.net/assignment_two?retryWrites=true&w=majority"
@@ -16,6 +17,11 @@ app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use("/api/emp/", empRoutes)
+
+app.route("/")
+    .get((req, res) => {
+        res.send("Assignment 2 in Fullstack Dev")
+    })
 
 app.listen(PORT, () => { // start server and listen on specified port
     console.log(`App is running on ${PORT}`) // confirm server is running and log port to the console
