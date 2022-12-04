@@ -2,6 +2,17 @@ const express = require("express");
 const routes = express.Router();
 const userModel = require("../models/userModel")
 
+//Get all user
+routes.get("/user", async(req,res) => {
+    const user = await userModel.find()
+    try {
+        res.status(200).send(user)
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
+
+
 //Creates new user
 routes.post("/user/add", async(req,res) => {
     try {
@@ -13,18 +24,5 @@ routes.post("/user/add", async(req,res) => {
     }
 })
 
-//Delete employee by ID
-routes.delete("/user/delete/:eid", async(req, res) => {
-    try {
-        const userID = req.params.eid
-        const deleteUser = await userModel.findByIdAndDelete(userID)
-        if(!deleteUser){
-            res.status(400).send({message: "Employee not found."})
-        }
-        res.status(204).send(deleteUser)
-    } catch (error) {
-        res.status(400).send(error)
-    }
-})
 
 module.exports = routes
